@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coopcredit-frontend
+  labels:
+    app: coopcredit-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coopcredit-frontend
+  template:
+    metadata:
+      labels:
+        app: coopcredit-frontend
+    spec:
+      containers:
+      - name: frontend-container
+        image: coopcredit-frontend:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python", "-m", "streamlit", "run", "interface.py", "--server.port", "8501", "--server.address", "0.0.0.0"]
+        ports:
+        - containerPort: 8501
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coopcredit-frontend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: coopcredit-frontend
+  ports:
+  - protocol: TCP
+    port: 8501
+    targetPort: 8501

@@ -1,0 +1,7 @@
+.env
+__pycache__/
+*.db
+chroma_db_local/
+.venv/
+sicred.venv/
+*.pyc

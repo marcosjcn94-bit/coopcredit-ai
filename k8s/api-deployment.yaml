@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coopcredit-api
+  labels:
+    app: coopcredit-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coopcredit-api
+  template:
+    metadata:
+      labels:
+        app: coopcredit-api
+    spec:
+      containers:
+      - name: api-container
+        image: coopcredit-api:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python", "-m", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - secretRef:
+            name: coopcredit-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coopcredit-api-service
+spec:
+  selector:
+    app: coopcredit-api
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000

@@ -1,0 +1,37 @@
+name: CoopCredit AI - Esteira de Testes (CI)
+
+# Define quando o robô vai trabalhar: sempre que houver um push na branch main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  auditoria-de-codigo:
+    runs-on: ubuntu-latest # O GitHub liga uma máquina virtual Linux de graça
+
+    steps:
+    - name: 📥 Clonar o repositório
+      uses: actions/checkout@v4
+
+    - name: 🐍 Configurar Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+        cache: 'pip' # Acelera as próximas execuções
+
+    - name: 📦 Instalar Dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest
+
+    - name: 🧪 Executar Motores Determinísticos (Testes Unitários)
+      run: |
+        # O pytest procura e executa automaticamente todos os arquivos test_*.py
+        pytest -v
+
+    - name: 🐳 Testar Build da Imagem Docker (Dry Run)
+      run: |
+        docker build -t coopcredit-api:test .
