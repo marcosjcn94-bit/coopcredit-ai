@@ -25,7 +25,7 @@ def test_cenario_da_imagem_com_nova_matriz():
     resultado = calcular_score(
         dias_atraso=150,
         acordos_rompidos=2,
-        possui_garantia="Não",
+        percentual_garantia=0,
         percentual_quitado=45,
     )
 
@@ -43,7 +43,7 @@ def test_score_reprovado():
     resultado = calcular_score(
         dias_atraso=330,
         acordos_rompidos=2,
-        possui_garantia=False,
+        percentual_garantia=0,
         percentual_quitado=0,
     )
 
