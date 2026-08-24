@@ -29,8 +29,8 @@ jobs:
 
     - name: 🧪 Executar Motores Determinísticos (Testes Unitários)
       run: |
-        # O pytest procura e executa automaticamente todos os arquivos test_*.py
-        pytest -v
+        # Usamos 'python -m pytest' para forçar o reconhecimento da pasta raiz
+        python -m pytest -v
 
     - name: 🐳 Testar Build da Imagem Docker (Dry Run)
       run: |
