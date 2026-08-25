@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 import numpy as np
+import os
 
 st.set_page_config(
     page_title="CoopCredit AI",
@@ -116,11 +117,13 @@ if st.button("Iniciar Auditoria"):
                 "valor_ja_pago": valor_ja_pago,
             }
 
+            API_URL = os.getenv("API_URL", "http://127.0.0.1:8000/api/v1/renegociar")
             resposta = requests.post(
-                "http://coopcredit-api-service:8000/api/v1/renegociar",
+                API_URL,
                 files=arquivos,
                 data=dados_form,
             )
+            resposta.raise_for_status()
 
         if resposta.status_code == 200:
 

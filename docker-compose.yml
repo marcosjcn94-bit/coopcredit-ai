@@ -7,10 +7,12 @@ services:
     env_file:
       - .env
 
-  frontend:
+frontend:
     build: .
     command: python -m streamlit run interface.py --server.port 8501 --server.address 0.0.0.0
     ports:
       - "8501:8501"
+    environment:
+      - API_URL=http://api:8000/api/v1/renegociar 
     depends_on:
       - api

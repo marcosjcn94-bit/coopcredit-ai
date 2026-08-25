@@ -21,6 +21,9 @@ spec:
         command: ["python", "-m", "streamlit", "run", "interface.py", "--server.port", "8501", "--server.address", "0.0.0.0"]
         ports:
         - containerPort: 8501
+        env:
+        - name: API_URL
+          value: "http://coopcredit-api-service:8000/api/v1/renegociar"
 ---
 apiVersion: v1
 kind: Service
