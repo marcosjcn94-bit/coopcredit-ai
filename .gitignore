@@ -3,5 +3,6 @@ __pycache__/
 *.db
 chroma_db_local/
 .venv/
+.venv_test/
 sicred.venv/
 *.pyc
