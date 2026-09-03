@@ -62,6 +62,13 @@ python -m streamlit run interface.py
 
 ### 🔆 Opção C: Kubernetes (K8s / Minikube)
 ````
+minikube start
+
+# Aponta o Docker do terminal para o daemon interno do Minikube.
+# Sem este passo as imagens ficam apenas na máquina host e os pods
+# falham com ImagePullBackOff (os manifestos usam imagePullPolicy: IfNotPresent).
+eval $(minikube docker-env)
+
 docker build -t coopcredit-api:latest .
 docker build -t coopcredit-frontend:latest .
 kubectl create secret generic coopcredit-secrets --from-env-file=.env

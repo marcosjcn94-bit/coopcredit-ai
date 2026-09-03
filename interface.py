@@ -111,7 +111,7 @@ if st.button("Iniciar Auditoria"):
 
             dados_form = {
                 "numero_parcelas": parcelas_propostas,
-                "possui_garantia": garantia_real,
+                "percentual_garantia": garantia_real,
                 "custo_judicial": custo_judicial,
                 "reincidencia": reincidencia,
                 "valor_ja_pago": valor_ja_pago,
@@ -123,7 +123,6 @@ if st.button("Iniciar Auditoria"):
                 files=arquivos,
                 data=dados_form,
             )
-            resposta.raise_for_status()
 
         if resposta.status_code == 200:
 

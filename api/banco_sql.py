@@ -36,22 +36,31 @@ def inicializar_banco_sintetico():
         gerador_cpf.generate()
     )  # Gera um CPF com pontuação válido matematicamente
 
-    try:
-        cursor.execute(
-            """
-            INSERT INTO operacoes_credito (
-                cpf, nome_cliente, saldo_devedor, dias_atraso, 
-                codigo_regulamento, reincidencia, possui_garantia, 
-                valor_ja_pago, custo_judicial, score, numero_parcelas
+    # CPF impresso na imagem cnh_sintetica.jpg versionada no repositório. Sem
+    # este registro, o teste de OCR descrito no README falha com "CPF não
+    # encontrado", já que o CPF acima é sorteado a cada criação do banco.
+    cpf_cnh_exemplo = "05859292899"
+
+    for cpf, nome in (
+        (cpf_sintetico, "Cliente Sintético (Teste)"),
+        (cpf_cnh_exemplo, "Cliente CNH Sintética (Exemplo README)"),
+    ):
+        try:
+            cursor.execute(
+                """
+                INSERT INTO operacoes_credito (
+                    cpf, nome_cliente, saldo_devedor, dias_atraso,
+                    codigo_regulamento, reincidencia, possui_garantia,
+                    valor_ja_pago, custo_judicial, score, numero_parcelas
+                )
+                VALUES (?, ?, 55000.00, 150, 'REG-001', 1, 1, 5000.00, 200.00, 650, 24)
+            """,
+                (cpf, nome),
             )
-            VALUES (?, 'Cliente Sintético (Teste)', 55000.00, 150, 'REG-001', 1, 1, 5000.00, 200.00, 650, 24)
-        """,
-            (cpf_sintetico,),
-        )
-        conexao.commit()
-    except sqlite3.IntegrityError:
-        # Se já existir, ignoramos
-        pass
+            conexao.commit()
+        except sqlite3.IntegrityError:
+            # Se já existir, ignoramos
+            pass
 
     conexao.close()
 
